@@ -1,0 +1,27 @@
+openapi: 3.1.0
+info:
+  title: ARGUS Decision Event Contract
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    DecisionEvent:
+      type: object
+      additionalProperties: false
+      required: [type, tenant_id, timestamp, payload]
+      properties:
+        type:
+          type: string
+          enum:
+            - decision.state_changed
+            - decision.evidence_added
+            - decision.resolved
+        tenant_id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        payload:
+          type: object
+          additionalProperties: true

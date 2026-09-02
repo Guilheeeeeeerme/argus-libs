@@ -1,0 +1,62 @@
+openapi: 3.1.0
+info:
+  title: ARGUS Ingestion Contract
+  version: 1.0.0
+paths:
+  /ingest/sequences:
+    post:
+      operationId: ingestSequence
+      responses:
+        "202":
+          description: Sequence accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IngestAcceptedResponse"
+        "409":
+          description: Idempotent replay accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IngestAcceptedResponse"
+        "400":
+          description: Invalid ingestion request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+components:
+  schemas:
+    IngestAcceptedResponse:
+      type: object
+      additionalProperties: false
+      required: [ingestion_id, status, queued_at]
+      properties:
+        ingestion_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [queued, duplicate]
+        queued_at:
+          type: string
+          format: date-time
+    ErrorEnvelope:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          $ref: "#/components/schemas/ErrorDetail"
+    ErrorDetail:
+      type: object
+      additionalProperties: false
+      required: [code, message, status]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        details: {}
