@@ -295,3 +295,10 @@
 .argus-message--error {
   color: var(--color-danger);
 }
+
+.argus-badge--true_positive,
+.argus-badge--false_positive,
+.argus-badge--false_negative {
+  color: var(--color-resolved);
+  background: rgba(124, 58, 237, 0.1);
+}
